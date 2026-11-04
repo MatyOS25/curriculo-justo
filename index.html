@@ -82,17 +82,30 @@
           </label>
         </fieldset>
 
+        <fieldset>
+          <legend>Formato da folha</legend>
+          <label class="opcao"><input type="radio" name="modelo" value="classico" checked> Clássico</label>
+          <label class="opcao"><input type="radio" name="modelo" value="compacto"> Compacto, para caber mais em uma página</label>
+        </fieldset>
+
+        <section id="area-revisao" class="revisao" aria-labelledby="titulo-revisao" hidden>
+          <h2 id="titulo-revisao">Antes de enviar</h2>
+          <ul id="revisao"></ul>
+        </section>
+
         <div class="acoes">
           <button type="submit" class="principal">Salvar em PDF ou imprimir</button>
           <label class="guardar"><input type="checkbox" id="guardar"> Guardar neste aparelho</label>
           <p class="ajuda">Deixe desmarcado em computador compartilhado. Seus dados não são enviados a nenhum servidor.</p>
           <p class="erro" id="aviso-guardar" role="status"></p>
           <div class="arquivos">
+            <button type="button" class="texto" id="copiar-texto">Copiar como texto</button>
             <button type="button" class="texto" id="baixar">Guardar em arquivo</button>
             <label class="texto rotulo-arquivo">Abrir arquivo<input type="file" id="arquivo" accept="application/json,.json" class="so-leitor"></label>
             <button type="button" class="texto perigo" id="apagar">Apagar tudo</button>
           </div>
-          <p class="ajuda">O arquivo guarda os dados do currículo para abrir em outro aparelho.</p>
+          <p class="ajuda">O texto serve para colar em sites de emprego. O arquivo guarda os dados para abrir em outro aparelho.</p>
+          <p class="ajuda">Currículo pronto? <a href="https://matyos25.github.io/vaga-clara/">Procure vagas e confira os anúncios no Vaga Clara</a>.</p>
         </div>
       </form>
     </div>

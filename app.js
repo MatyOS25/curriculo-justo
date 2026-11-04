@@ -1,4 +1,5 @@
 import { validar, montar, mascararTelefone, posicaoNaMascara } from './curriculo.js'
+import { revisarCurriculo, comoTexto } from './revisao.js'
 
 const CHAVE = 'curriculo-justo'
 const LISTAS = ['experiencias', 'formacoes']
@@ -38,6 +39,7 @@ const lerItens = (lista) =>
   )
 
 const lerDados = () => ({
+  modelo: formulario.elements.modelo.value,
   ...Object.fromEntries(CAMPOS_SIMPLES.map((nome) => [nome, formulario.elements[nome].value])),
   ...Object.fromEntries(LISTAS.map((lista) => [lista, lerItens(lista)])),
 })
@@ -64,8 +66,17 @@ const blocoFormacao = ({ curso, instituicao, periodo }) => [
   ...(periodo ? [elemento('p', periodo)] : []),
 ]
 
+const mostrarRevisao = (modelo) => {
+  const avisos = revisarCurriculo(modelo)
+  document.querySelector('#area-revisao').hidden = avisos.length === 0
+  document.querySelector('#revisao').replaceChildren(...avisos.map(({ mensagem }) => elemento('li', mensagem)))
+}
+
 const desenhar = () => {
-  const { nome, contatos, objetivo, experiencias, formacoes, habilidades } = montar(lerDados())
+  const modelo = montar(lerDados())
+  const { nome, contatos, objetivo, experiencias, formacoes, habilidades } = modelo
+  folha.dataset.modelo = formulario.elements.modelo.value
+  mostrarRevisao(modelo)
   folha.replaceChildren(
     elemento('h2', nome || 'Seu nome aparece aqui', nome ? '' : 'vazio'),
     ...(contatos.length ? [elemento('p', contatos.join(' | '), 'contatos')] : []),
@@ -138,6 +149,7 @@ const atualizar = () => {
 }
 
 const preencher = (dados) => {
+  formulario.elements.modelo.value = dados.modelo === 'compacto' ? 'compacto' : 'classico'
   CAMPOS_SIMPLES.forEach((nome) => {
     formulario.elements[nome].value = typeof dados[nome] === 'string' ? dados[nome] : ''
   })
@@ -197,6 +209,28 @@ formulario.addEventListener('submit', (evento) => {
 })
 
 const CAMPOS_CONHECIDOS = [...CAMPOS_SIMPLES, ...LISTAS]
+
+const botaoCopiar = document.querySelector('#copiar-texto')
+const ROTULO_COPIAR = botaoCopiar.textContent
+let esperaCopiar
+
+botaoCopiar.addEventListener('click', async () => {
+  const texto = comoTexto(montar(lerDados()))
+  let aviso = 'Preencha o currículo primeiro'
+  if (texto) {
+    try {
+      await navigator.clipboard.writeText(texto)
+      aviso = 'Texto copiado'
+    } catch {
+      aviso = 'Não foi possível copiar'
+    }
+  }
+  botaoCopiar.textContent = aviso
+  clearTimeout(esperaCopiar)
+  esperaCopiar = setTimeout(() => {
+    botaoCopiar.textContent = ROTULO_COPIAR
+  }, 2000)
+})
 
 document.querySelector('#baixar').addEventListener('click', () => {
   const dados = JSON.stringify(lerDados(), null, 2)
