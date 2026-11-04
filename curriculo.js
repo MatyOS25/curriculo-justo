@@ -10,6 +10,18 @@ export function formatarTelefone(telefone) {
   return `(${numero.slice(0, 2)}) ${numero.slice(2, corte)}-${numero.slice(corte)}`
 }
 
+// Monta a máscara (DD) XXXXX-XXXX em qualquer ponto da digitação.
+export function mascararTelefone(entrada) {
+  const numero = digitos(entrada).slice(0, 11)
+  const ddd = numero.slice(0, 2)
+  const resto = numero.slice(2)
+  const corte = numero.length > 10 ? 5 : 4
+  if (!ddd) return ''
+  if (numero.length <= 2) return `(${ddd}`
+  if (resto.length <= corte) return `(${ddd}) ${resto}`
+  return `(${ddd}) ${resto.slice(0, corte)}-${resto.slice(corte)}`
+}
+
 export function validar({ nome, telefone, email }) {
   const quantidade = digitos(telefone).length
   return {

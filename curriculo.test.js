@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { validar, montar, formatarTelefone } from './curriculo.js'
+import { validar, montar, formatarTelefone, mascararTelefone } from './curriculo.js'
 
 const base = { nome: 'Ana Souza', telefone: '21999998888', email: '' }
 
@@ -36,6 +36,25 @@ test('formata telefone fixo e celular', () => {
 
 test('telefone fora do padrão fica como foi digitado', () => {
   assert.equal(formatarTelefone('123'), '123')
+})
+
+test('máscara acompanha cada etapa da digitação', () => {
+  assert.equal(mascararTelefone(''), '')
+  assert.equal(mascararTelefone('2'), '(2')
+  assert.equal(mascararTelefone('21'), '(21')
+  assert.equal(mascararTelefone('219'), '(21) 9')
+  assert.equal(mascararTelefone('2199998888'), '(21) 9999-8888')
+  assert.equal(mascararTelefone('21999998888'), '(21) 99999-8888')
+})
+
+test('máscara ignora o que não é dígito e limita a 11 dígitos', () => {
+  assert.equal(mascararTelefone('(21) 99999-888899'), '(21) 99999-8888')
+  assert.equal(mascararTelefone('21 9999 8888'), '(21) 9999-8888')
+  assert.equal(mascararTelefone('abc'), '')
+})
+
+test('máscara completa é aceita pela validação', () => {
+  assert.deepEqual(validar({ ...base, telefone: mascararTelefone('21999998888') }), {})
 })
 
 test('montar tira espaços, itens vazios e não altera a entrada', () => {

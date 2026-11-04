@@ -1,4 +1,4 @@
-import { validar, montar } from './curriculo.js'
+import { validar, montar, mascararTelefone } from './curriculo.js'
 
 const CHAVE = 'curriculo-justo'
 const LISTAS = ['experiencias', 'formacoes']
@@ -134,7 +134,12 @@ const preencher = (dados) => {
   })
 }
 
-formulario.addEventListener('input', atualizar)
+formulario.addEventListener('input', (evento) => {
+  if (evento.target.name === 'telefone') {
+    evento.target.value = mascararTelefone(evento.target.value)
+  }
+  atualizar()
+})
 
 formulario.addEventListener('click', ({ target }) => {
   if (target.dataset.adicionar) {
