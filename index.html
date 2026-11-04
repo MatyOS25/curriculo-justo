@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Currículo Justo</title>
+  <meta name="description" content="Monte um currículo gratuito pelo celular, sem foto, idade ou estado civil, valorizando bicos, trabalho informal e voluntariado.">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Currículo Justo</h1>
+    <p>Monte seu currículo de graça. Aqui, bico, trabalho informal, cuidado de pessoas e voluntariado contam como experiência.</p>
+  </header>
+
+  <main class="area">
+    <form id="formulario" novalidate>
+      <fieldset>
+        <legend>Sobre você</legend>
+        <label>Nome
+          <span class="ajuda">Use o nome pelo qual você quer ser chamado, inclusive o nome social.</span>
+          <input name="nome" autocomplete="name" required aria-describedby="erro-nome">
+        </label>
+        <p class="erro" id="erro-nome" hidden></p>
+        <label>Telefone com DDD
+          <input name="telefone" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="erro-telefone">
+        </label>
+        <p class="erro" id="erro-telefone" hidden></p>
+        <label>E-mail
+          <input name="email" type="email" autocomplete="email" aria-describedby="erro-email">
+        </label>
+        <p class="erro" id="erro-email" hidden></p>
+        <label>Cidade e estado
+          <span class="ajuda">Não precisa informar rua nem bairro.</span>
+          <input name="cidade" autocomplete="address-level2">
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>O que você procura</legend>
+        <label>Objetivo
+          <span class="ajuda">Uma frase basta. Exemplo: trabalhar com atendimento ao público.</span>
+          <textarea name="objetivo" rows="2"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Experiência</legend>
+        <p class="ajuda">Conte também bicos, trabalho sem carteira, ajuda em negócio da família, cuidado de crianças ou idosos e voluntariado.</p>
+        <div id="experiencias"></div>
+        <button type="button" class="secundario" data-adicionar="experiencias">Adicionar experiência</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Estudos e cursos</legend>
+        <div id="formacoes"></div>
+        <button type="button" class="secundario" data-adicionar="formacoes">Adicionar estudo ou curso</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>O que você sabe fazer</legend>
+        <label>Habilidades
+          <span class="ajuda">Separe com vírgulas. Exemplo: atendimento, organização, Excel.</span>
+          <textarea name="habilidades" rows="2"></textarea>
+        </label>
+      </fieldset>
+
+      <div class="acoes">
+        <button type="submit" class="principal">Salvar em PDF ou imprimir</button>
+        <label class="guardar"><input type="checkbox" id="guardar"> Guardar neste aparelho</label>
+        <p class="ajuda">Deixe desmarcado em computador compartilhado. Seus dados não são enviados a nenhum servidor.</p>
+        <p class="erro" id="aviso-guardar" role="status"></p>
+        <button type="button" class="secundario" id="apagar">Apagar tudo</button>
+      </div>
+    </form>
+
+    <section class="previa" aria-label="Prévia do currículo">
+      <article id="folha" class="folha"></article>
+    </section>
+  </main>
+
+  <template id="modelo-experiencias">
+    <div class="item" role="group">
+      <label>Função ou atividade <input data-campo="funcao"></label>
+      <label>Onde <input data-campo="local"></label>
+      <label>Período <input data-campo="periodo" placeholder="2022 a 2024"></label>
+      <label>O que você fazia <textarea data-campo="descricao" rows="2"></textarea></label>
+      <button type="button" class="remover">Remover experiência</button>
+    </div>
+  </template>
+
+  <template id="modelo-formacoes">
+    <div class="item" role="group">
+      <label>Curso ou série <input data-campo="curso"></label>
+      <label>Escola ou instituição <input data-campo="instituicao"></label>
+      <label>Ano ou situação <input data-campo="periodo" placeholder="Concluído em 2021"></label>
+      <button type="button" class="remover">Remover estudo</button>
+    </div>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
