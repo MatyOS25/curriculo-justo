@@ -1,5 +1,5 @@
-// Cache simples: depois da primeira visita, o aplicativo abre mesmo sem internet.
-const VERSAO = 'curriculo-justo-v1'
+// Usa a rede quando há conexão, para ninguém ficar preso a uma versão antiga, e o cache quando não há.
+const VERSAO = 'curriculo-justo-v2'
 const ARQUIVOS = ['./', 'index.html', 'estilo.css', 'app.js', 'curriculo.js', 'manifest.webmanifest', 'icone.svg']
 
 self.addEventListener('install', (evento) => {
@@ -12,6 +12,17 @@ self.addEventListener('activate', (evento) => {
 })
 
 self.addEventListener('fetch', (evento) => {
-  if (evento.request.method !== 'GET') return
-  evento.respondWith(caches.match(evento.request).then((guardada) => guardada ?? fetch(evento.request)))
+  const { request } = evento
+  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return
+  evento.respondWith(
+    fetch(request)
+      .then((resposta) => {
+        if (resposta.ok) {
+          const copia = resposta.clone()
+          evento.waitUntil(caches.open(VERSAO).then((cache) => cache.put(request, copia)))
+        }
+        return resposta
+      })
+      .catch(() => caches.match(request).then((guardada) => guardada ?? Response.error())),
+  )
 })
