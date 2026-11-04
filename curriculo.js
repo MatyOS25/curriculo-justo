@@ -10,9 +10,25 @@ export function formatarTelefone(telefone) {
   return `(${numero.slice(0, 2)}) ${numero.slice(2, corte)}-${numero.slice(corte)}`
 }
 
+// Com mais de 11 dígitos, um 55 inicial é o código do Brasil, não o DDD.
+const semCodigoDoPais = (numero) => (numero.length > 11 && numero.startsWith('55') ? numero.slice(2) : numero)
+
+// Índice logo depois do enésimo dígito, para o cursor não pular ao aplicar a máscara.
+export function posicaoNaMascara(mascara, quantidadeDeDigitos) {
+  if (quantidadeDeDigitos <= 0) return 0
+  const { posicao } = [...mascara].reduce(
+    (estado, caractere, indice) => {
+      const vistos = estado.vistos + (/[0-9]/.test(caractere) ? 1 : 0)
+      return { vistos, posicao: estado.posicao ?? (vistos === quantidadeDeDigitos ? indice + 1 : null) }
+    },
+    { vistos: 0, posicao: null },
+  )
+  return posicao ?? mascara.length
+}
+
 // Monta a máscara (DD) XXXXX-XXXX em qualquer ponto da digitação.
 export function mascararTelefone(entrada) {
-  const numero = digitos(entrada).slice(0, 11)
+  const numero = semCodigoDoPais(digitos(entrada)).slice(0, 11)
   const ddd = numero.slice(0, 2)
   const resto = numero.slice(2)
   const corte = numero.length > 10 ? 5 : 4

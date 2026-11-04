@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { validar, montar, formatarTelefone, mascararTelefone } from './curriculo.js'
+import { validar, montar, formatarTelefone, mascararTelefone, posicaoNaMascara } from './curriculo.js'
 
 const base = { nome: 'Ana Souza', telefone: '21999998888', email: '' }
 
@@ -93,4 +93,16 @@ test('montar aceita dados ausentes', () => {
 test('montar ignora campos que o currículo não pede', () => {
   const modelo = montar({ ...base, idade: '45', estadoCivil: 'casada', foto: 'x.png' })
   assert.deepEqual(Object.keys(modelo).sort(), ['contatos', 'experiencias', 'formacoes', 'habilidades', 'nome', 'objetivo'])
+})
+
+test('máscara remove o código do Brasil em vez de cortar o número', () => {
+  assert.equal(mascararTelefone('+55 21 99999-8888'), '(21) 99999-8888')
+  assert.equal(mascararTelefone('552133334444'), '(21) 3333-4444')
+})
+
+test('posição do cursor preserva a quantidade de dígitos à esquerda', () => {
+  assert.equal(posicaoNaMascara('(21) 99999-8888', 0), 0)
+  assert.equal(posicaoNaMascara('(21) 99999-8888', 2), 3)
+  assert.equal(posicaoNaMascara('(21) 99999-8888', 3), 6)
+  assert.equal(posicaoNaMascara('(21) 99999-8888', 11), 15)
 })
