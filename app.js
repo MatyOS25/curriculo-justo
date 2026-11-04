@@ -108,15 +108,28 @@ const sincronizarArmazenamento = () => {
   avisoGuardar.textContent = gravou ? '' : 'Não foi possível guardar neste aparelho. Salve o PDF antes de sair da página.'
 }
 
-const mostrarErros = (erros) => {
-  ;['nome', 'telefone', 'email'].forEach((campo) => {
+const CAMPOS_COM_ERRO = ['nome', 'telefone', 'email']
+
+const pintarErros = (erros) => {
+  CAMPOS_COM_ERRO.forEach((campo) => {
     const aviso = document.querySelector(`#erro-${campo}`)
     aviso.textContent = erros[campo] ?? ''
     aviso.hidden = !erros[campo]
     formulario.elements[campo].setAttribute('aria-invalid', String(Boolean(erros[campo])))
   })
-  const primeiro = ['nome', 'telefone', 'email'].find((campo) => erros[campo])
+}
+
+const mostrarErros = (erros) => {
+  pintarErros(erros)
+  const primeiro = CAMPOS_COM_ERRO.find((campo) => erros[campo])
   if (primeiro) formulario.elements[primeiro].focus()
+}
+
+// Depois da primeira validação, o erro some assim que a pessoa corrige o campo.
+const revisarErros = () => {
+  if (CAMPOS_COM_ERRO.some((campo) => !document.querySelector(`#erro-${campo}`).hidden)) {
+    pintarErros(validar(lerDados()))
+  }
 }
 
 const atualizar = () => {
@@ -139,6 +152,7 @@ formulario.addEventListener('input', (evento) => {
     evento.target.value = mascararTelefone(evento.target.value)
   }
   atualizar()
+  revisarErros()
 })
 
 formulario.addEventListener('click', ({ target }) => {
