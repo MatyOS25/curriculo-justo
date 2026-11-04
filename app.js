@@ -1,4 +1,4 @@
-import { validar, montar, mascararTelefone } from './curriculo.js'
+import { validar, montar, mascararTelefone, posicaoNaMascara } from './curriculo.js'
 
 const CHAVE = 'curriculo-justo'
 const LISTAS = ['experiencias', 'formacoes']
@@ -149,7 +149,11 @@ const preencher = (dados) => {
 
 formulario.addEventListener('input', (evento) => {
   if (evento.target.name === 'telefone') {
-    evento.target.value = mascararTelefone(evento.target.value)
+    const campo = evento.target
+    const aEsquerda = campo.value.slice(0, campo.selectionStart).replace(/[^0-9]/g, '').length
+    campo.value = mascararTelefone(campo.value)
+    const cursor = posicaoNaMascara(campo.value, aEsquerda)
+    campo.setSelectionRange(cursor, cursor)
   }
   atualizar()
   revisarErros()
@@ -215,6 +219,7 @@ document.querySelector('#arquivo').addEventListener('change', async ({ target })
     LISTAS.forEach((lista) => document.querySelector(`#${lista}`).replaceChildren())
     preencher(dados)
     atualizar()
+    revisarErros()
   } catch {
     avisoGuardar.textContent = 'Não foi possível abrir o arquivo. Ele precisa ter sido guardado pelo Currículo Justo.'
     setTimeout(() => {

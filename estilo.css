@@ -107,7 +107,19 @@ button { min-height: 2.875rem; font: 600 1rem 'Lexend', system-ui, sans-serif; c
 
 .arquivos { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
 
+/* Fora da vista, mas continua alcançável pelo teclado e pelo leitor de tela. */
+.so-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.rotulo-arquivo:focus-within { outline: 3px solid var(--acao); outline-offset: 2px; }
+
 .rotulo-arquivo {
+  position: relative;
   display: inline-block;
   cursor: pointer;
   text-align: center;
