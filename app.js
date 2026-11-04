@@ -184,3 +184,8 @@ if (salvo && typeof salvo === 'object') {
   guardar.checked = true
 }
 desenhar()
+
+// Depois da primeira visita, o aplicativo passa a abrir mesmo sem internet.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+}

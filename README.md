@@ -4,5 +4,6 @@ Monta um currículo pelo celular e gera PDF com a impressão do navegador. Não 
 
 - Rodar: `python -m http.server 8732` nesta pasta e abrir http://127.0.0.1:8732
 - Testar: `npm test` ou `npm run cobertura` (requer Node 22+)
+- Depois da primeira visita, o site abre mesmo sem internet (service worker).
 
 Os dados ficam no navegador. Só são guardados no aparelho se a pessoa marcar essa opção.
