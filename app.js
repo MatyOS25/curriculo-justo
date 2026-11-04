@@ -192,6 +192,37 @@ formulario.addEventListener('submit', (evento) => {
   if (Object.keys(erros).length === 0) window.print()
 })
 
+const CAMPOS_CONHECIDOS = [...CAMPOS_SIMPLES, ...LISTAS]
+
+document.querySelector('#baixar').addEventListener('click', () => {
+  const dados = JSON.stringify(lerDados(), null, 2)
+  const url = URL.createObjectURL(new Blob([dados], { type: 'application/json' }))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'curriculo.json'
+  link.click()
+  URL.revokeObjectURL(url)
+})
+
+document.querySelector('#arquivo').addEventListener('change', async ({ target }) => {
+  const [item] = target.files
+  target.value = ''
+  if (!item) return
+  try {
+    const dados = JSON.parse(await item.text())
+    if (!dados || typeof dados !== 'object' || !CAMPOS_CONHECIDOS.some((campo) => campo in dados)) throw new Error()
+    formulario.reset()
+    LISTAS.forEach((lista) => document.querySelector(`#${lista}`).replaceChildren())
+    preencher(dados)
+    atualizar()
+  } catch {
+    avisoGuardar.textContent = 'Não foi possível abrir o arquivo. Ele precisa ter sido guardado pelo Currículo Justo.'
+    setTimeout(() => {
+      avisoGuardar.textContent = ''
+    }, 5000)
+  }
+})
+
 const salvo = armazenamento.ler()
 if (salvo && typeof salvo === 'object') {
   preencher(salvo)

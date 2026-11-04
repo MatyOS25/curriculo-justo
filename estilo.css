@@ -105,6 +105,15 @@ button { min-height: 2.875rem; font: 600 1rem 'Lexend', system-ui, sans-serif; c
 
 .guardar { margin: 1rem 0 0; }
 
+.arquivos { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+
+.rotulo-arquivo {
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  font: 600 1rem 'Lexend', system-ui, sans-serif;
+}
+
 .guardar input { width: 1.25rem; height: 1.25rem; vertical-align: -0.2rem; }
 
 .sem-js {

@@ -80,6 +80,11 @@
         <label class="guardar"><input type="checkbox" id="guardar"> Guardar neste aparelho</label>
         <p class="ajuda">Deixe desmarcado em computador compartilhado. Seus dados não são enviados a nenhum servidor.</p>
         <p class="erro" id="aviso-guardar" role="status"></p>
+        <div class="arquivos">
+          <button type="button" class="secundario" id="baixar">Guardar em arquivo</button>
+          <label class="secundario rotulo-arquivo">Abrir arquivo<input type="file" id="arquivo" accept="application/json,.json" hidden></label>
+        </div>
+        <p class="ajuda">O arquivo guarda os dados do currículo para abrir em outro aparelho.</p>
         <button type="button" class="secundario" id="apagar">Apagar tudo</button>
       </div>
     </form>
