@@ -1,11 +1,14 @@
 :root {
-  --fundo: #ece8f5;
-  --tinta: #25163a;
-  --suave: #5c4f70;
-  --acao: #5a2a8c;
-  --borda: #8d81a3;
+  --papel: #ffffff;
+  --tinta: #1a1f1d;
+  --suave: #55605c;
+  --linha: #aab3af;
+  --campo-item: #eef1ef;
+  --acao: #0b3d36;
+  --painel: #0b3d36;
   --erro: #a3123a;
-  --folha: #fff;
+  --ui: 'Lexend', system-ui, sans-serif;
+  --documento: 'Source Serif 4', Georgia, serif;
 }
 
 * { box-sizing: border-box; }
@@ -14,39 +17,44 @@
 
 body {
   margin: 0;
-  background: var(--fundo);
+  background: var(--papel);
   color: var(--tinta);
-  font: 1.0625rem/1.5 'Lexend', system-ui, sans-serif;
+  font: 400 1rem/1.5 var(--ui);
 }
 
-:focus-visible { outline: 3px solid var(--acao); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
 
-.topo, .area { width: min(76rem, 100% - 2rem); margin-inline: auto; }
+/* A folha ocupa o painel fixo: é o resultado que a pessoa veio buscar. */
+.area {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: start;
+}
 
-.topo { padding-block: 2rem 1.5rem; }
+.preenchimento { padding: 2rem clamp(1.5rem, 4vw, 4rem) 4rem; }
+
+.topo { max-width: 34rem; margin-bottom: 2rem; }
 
 .topo h1 {
   margin: 0;
-  font-size: clamp(2.25rem, 6vw, 3.5rem);
-  line-height: 1.05;
   color: var(--acao);
+  font: 700 clamp(2.25rem, 4vw, 3rem)/1.1 var(--documento);
+  text-wrap: balance;
 }
 
-.topo p { max-width: 38rem; margin: 0.75rem 0 0; font-size: 1.125rem; }
+.topo p { margin: 0.75rem 0 0; font-size: 1.0625rem; text-wrap: pretty; }
 
-.area {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 2rem;
-  align-items: start;
-  padding-bottom: 3rem;
-}
+form { max-width: 34rem; }
 
-fieldset { margin: 0 0 1.75rem; padding: 0; border: 0; }
+fieldset { margin: 0 0 2rem; padding: 1rem 0 0; border: 0; border-top: 1px solid var(--tinta); }
 
-legend { padding: 0; margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 700; }
+legend { float: left; width: 100%; padding: 0; margin-bottom: 0.75rem; font: 700 1.25rem/1.3 var(--documento); }
+
+legend + * { clear: both; }
 
 label { display: block; margin-bottom: 0.875rem; font-weight: 600; }
+
+.dupla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 0.75rem; }
 
 .ajuda {
   display: block;
@@ -54,20 +62,23 @@ label { display: block; margin-bottom: 0.875rem; font-weight: 600; }
   color: var(--suave);
   font-size: 0.9375rem;
   font-weight: 400;
+  text-wrap: pretty;
 }
 
-input:not([type='checkbox']), textarea {
+input:not([type='checkbox'], [type='file']), textarea {
   display: block;
   width: 100%;
-  min-height: 2.875rem;
+  min-height: 2.75rem;
   margin-top: 0.25rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--borda);
-  border-radius: 6px;
-  background: #fff;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--suave);
+  border-radius: 3px;
+  background: var(--papel);
   color: var(--tinta);
-  font: 400 1rem/1.4 'Lexend', system-ui, sans-serif;
+  font: 400 1rem/1.4 var(--ui);
 }
+
+textarea { resize: vertical; }
 
 [aria-invalid='true'] { border: 2px solid var(--erro) !important; }
 
@@ -76,36 +87,53 @@ input:not([type='checkbox']), textarea {
 .erro:empty { display: none; }
 
 .item {
-  margin-bottom: 0.875rem;
+  margin-bottom: 0.75rem;
   padding: 1rem;
-  border-left: 4px solid var(--acao);
-  background: #f7f5fb;
+  background: var(--campo-item);
 }
 
-button { min-height: 2.875rem; font: 600 1rem 'Lexend', system-ui, sans-serif; cursor: pointer; }
+button { min-height: 2.75rem; font: 600 1rem var(--ui); cursor: pointer; }
 
 .principal {
   width: 100%;
   padding: 0.75rem 1.25rem;
   border: 0;
-  border-radius: 6px;
+  border-radius: 3px;
   background: var(--acao);
-  color: #fff;
+  color: var(--papel);
 }
 
 .secundario {
   padding: 0.5rem 1rem;
   border: 1px solid var(--acao);
-  border-radius: 6px;
+  border-radius: 3px;
   background: transparent;
   color: var(--acao);
 }
 
-.remover { padding: 0; border: 0; background: none; color: var(--erro); text-decoration: underline; }
+.secundario:hover { background: var(--campo-item); }
+
+.remover { min-height: 0; padding: 0; border: 0; background: none; color: var(--erro); text-decoration: underline; }
 
 .guardar { margin: 1rem 0 0; }
 
-.arquivos { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+.guardar input { width: 1.25rem; height: 1.25rem; vertical-align: -0.2rem; }
+
+.arquivos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; margin-top: 1rem; }
+
+.texto {
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--acao);
+  font: 600 1rem/2.75rem var(--ui);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.perigo { color: var(--erro); }
 
 /* Fora da vista, mas continua alcançável pelo teclado e pelo leitor de tela. */
 .so-leitor {
@@ -116,66 +144,67 @@ button { min-height: 2.875rem; font: 600 1rem 'Lexend', system-ui, sans-serif; c
   clip-path: inset(50%);
 }
 
-.rotulo-arquivo:focus-within { outline: 3px solid var(--acao); outline-offset: 2px; }
+.rotulo-arquivo { position: relative; }
 
-.rotulo-arquivo {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-  font: 600 1rem 'Lexend', system-ui, sans-serif;
+.rotulo-arquivo:focus-within { outline: 2px solid var(--acao); outline-offset: 2px; }
+
+.sem-js { margin: 0 0 2rem; padding: 1rem; background: var(--campo-item); font-weight: 600; }
+
+.previa {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  overflow: auto;
+  background: var(--painel);
 }
-
-.guardar input { width: 1.25rem; height: 1.25rem; vertical-align: -0.2rem; }
-
-.sem-js {
-  width: min(76rem, 100% - 2rem);
-  margin: 0 auto 2rem;
-  padding: 1rem 1.25rem;
-  border-left: 4px solid var(--erro);
-  background: var(--folha);
-}
-
-.previa { position: sticky; top: 1rem; }
 
 .folha {
-  min-height: 34rem;
-  padding: 2.25rem;
-  background: var(--folha);
-  box-shadow: 0 1px 2px #25163a33, 0 8px 24px #25163a1f;
-  color: #1c1c1c;
-  font: 1rem/1.5 'Source Serif 4', Georgia, serif;
+  width: 100%;
+  max-width: 44rem;
+  min-height: min(62rem, 100%);
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  background: var(--papel);
+  color: #111111;
+  font: 400 1.0625rem/1.5 var(--documento);
   overflow-wrap: anywhere;
 }
 
-.folha h2 { margin: 0; font: 700 1.75rem/1.2 'Lexend', system-ui, sans-serif; color: var(--acao); }
+.folha h2 { margin: 0; font: 700 2rem/1.15 var(--documento); text-wrap: balance; }
 
-.folha .contatos { margin: 0.375rem 0 0; }
+.folha .contatos { margin: 0.5rem 0 0; }
 
 .folha h3 {
-  margin: 1.25rem 0 0.375rem;
-  padding-bottom: 0.125rem;
-  border-bottom: 2px solid var(--acao);
-  font: 600 1.0625rem/1.3 'Lexend', system-ui, sans-serif;
+  margin: 1.5rem 0 0.375rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #111111;
+  font: 700 1.125rem/1.3 var(--documento);
 }
 
-.folha h4 { margin: 0.625rem 0 0; font-size: 1rem; font-weight: 600; }
+.folha h4 { margin: 0.75rem 0 0; font-size: 1.0625rem; font-weight: 600; }
 
 .folha p { margin: 0; }
 
 .folha .vazio { color: var(--suave); }
 
-@media (max-width: 54rem) {
+@media (max-width: 58rem) {
   .area { grid-template-columns: minmax(0, 1fr); }
-  .previa { position: static; }
+  .preenchimento { padding: 1.5rem 1rem 2rem; }
+  .previa { position: static; height: auto; padding: 1rem; }
   .folha { min-height: 0; padding: 1.25rem; }
+}
+
+@media (max-width: 26rem) {
+  .dupla { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media print {
   @page { size: A4; margin: 18mm; }
-  body { background: #fff; }
-  .topo, form { display: none; }
-  .area { display: block; width: auto; padding: 0; }
-  .folha { padding: 0; min-height: 0; box-shadow: none; }
+  body { background: #ffffff; }
+  .preenchimento { display: none; }
+  .area { display: block; }
+  .previa { position: static; height: auto; padding: 0; overflow: visible; background: #ffffff; }
+  .folha { max-width: none; min-height: 0; padding: 0; }
   .folha h3, .folha h4 { break-after: avoid; }
 }

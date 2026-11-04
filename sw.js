@@ -1,5 +1,5 @@
 // Usa a rede quando há conexão, para ninguém ficar preso a uma versão antiga, e o cache quando não há.
-const VERSAO = 'curriculo-justo-v2'
+const VERSAO = 'curriculo-justo-v3'
 const ARQUIVOS = ['./', 'index.html', 'estilo.css', 'app.js', 'curriculo.js', 'manifest.webmanifest', 'icone.svg']
 
 self.addEventListener('install', (evento) => {

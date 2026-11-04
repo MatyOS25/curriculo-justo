@@ -7,87 +7,95 @@
   <meta name="description" content="Monte um currículo gratuito pelo celular, sem foto, idade ou estado civil, valorizando bicos, trabalho informal e voluntariado.">
   <link rel="icon" href="icone.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#5a2a8c">
+  <meta name="theme-color" content="#0b3d36">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Source+Serif+4:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-  <header class="topo">
-    <h1>Currículo Justo</h1>
-    <p>Monte seu currículo de graça. Aqui, bico, trabalho informal, cuidado de pessoas e voluntariado contam como experiência.</p>
-  </header>
-
-  <noscript>
-    <p class="sem-js">Este site precisa de JavaScript para montar o currículo. Ative o JavaScript no navegador e recarregue a página.</p>
-  </noscript>
-
   <main class="area">
-    <form id="formulario" novalidate>
-      <fieldset>
-        <legend>Sobre você</legend>
-        <label>Nome
-          <span class="ajuda">Use o nome pelo qual você quer ser chamado, inclusive o nome social.</span>
-          <input name="nome" autocomplete="name" required aria-describedby="erro-nome">
-        </label>
-        <p class="erro" id="erro-nome" hidden></p>
-        <label>Telefone com DDD
-          <input name="telefone" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="erro-telefone">
-        </label>
-        <p class="erro" id="erro-telefone" hidden></p>
-        <label>E-mail
-          <input name="email" type="email" autocomplete="email" aria-describedby="erro-email">
-        </label>
-        <p class="erro" id="erro-email" hidden></p>
-        <label>Cidade e estado
-          <span class="ajuda">Não precisa informar rua nem bairro.</span>
-          <input name="cidade" autocomplete="address-level2">
-        </label>
-      </fieldset>
+    <div class="preenchimento">
+      <header class="topo">
+        <h1>Currículo Justo</h1>
+        <p>Bico, trabalho informal, cuidado de pessoas e voluntariado contam como experiência. Foto, idade e estado civil ficam de fora.</p>
+      </header>
 
-      <fieldset>
-        <legend>O que você procura</legend>
-        <label>Objetivo
-          <span class="ajuda">Uma frase basta. Exemplo: trabalhar com atendimento ao público.</span>
-          <textarea name="objetivo" rows="2"></textarea>
-        </label>
-      </fieldset>
+      <noscript>
+        <p class="sem-js">Este site precisa de JavaScript para montar o currículo. Ative o JavaScript no navegador e recarregue a página.</p>
+      </noscript>
 
-      <fieldset>
-        <legend>Experiência</legend>
-        <p class="ajuda">Conte também bicos, trabalho sem carteira, ajuda em negócio da família, cuidado de crianças ou idosos e voluntariado.</p>
-        <div id="experiencias"></div>
-        <button type="button" class="secundario" data-adicionar="experiencias">Adicionar experiência</button>
-      </fieldset>
+      <form id="formulario" novalidate>
+        <fieldset>
+          <legend>Sobre você</legend>
+          <label>Nome
+            <span class="ajuda">O nome pelo qual você quer ser chamado, inclusive o nome social.</span>
+            <input name="nome" autocomplete="name" required aria-describedby="erro-nome">
+          </label>
+          <p class="erro" id="erro-nome" hidden></p>
+          <div class="dupla">
+            <div>
+              <label>Telefone com DDD
+                <input name="telefone" type="tel" inputmode="tel" autocomplete="tel" aria-describedby="erro-telefone">
+              </label>
+              <p class="erro" id="erro-telefone" hidden></p>
+            </div>
+            <div>
+              <label>E-mail
+                <input name="email" type="email" autocomplete="email" aria-describedby="erro-email">
+              </label>
+              <p class="erro" id="erro-email" hidden></p>
+            </div>
+          </div>
+          <label>Cidade e estado
+            <span class="ajuda">Não precisa informar rua nem bairro.</span>
+            <input name="cidade" autocomplete="address-level2">
+          </label>
+        </fieldset>
 
-      <fieldset>
-        <legend>Estudos e cursos</legend>
-        <div id="formacoes"></div>
-        <button type="button" class="secundario" data-adicionar="formacoes">Adicionar estudo ou curso</button>
-      </fieldset>
+        <fieldset>
+          <legend>O que você procura</legend>
+          <label>Objetivo
+            <span class="ajuda">Uma frase basta. Exemplo: trabalhar com atendimento ao público.</span>
+            <textarea name="objetivo" rows="2"></textarea>
+          </label>
+        </fieldset>
 
-      <fieldset>
-        <legend>O que você sabe fazer</legend>
-        <label>Habilidades
-          <span class="ajuda">Separe com vírgulas. Exemplo: atendimento, organização, Excel.</span>
-          <textarea name="habilidades" rows="2"></textarea>
-        </label>
-      </fieldset>
+        <fieldset>
+          <legend>Experiência</legend>
+          <p class="ajuda">Conte também bicos, trabalho sem carteira, ajuda em negócio da família, cuidado de crianças ou idosos e voluntariado.</p>
+          <div id="experiencias"></div>
+          <button type="button" class="secundario" data-adicionar="experiencias">Adicionar experiência</button>
+        </fieldset>
 
-      <div class="acoes">
-        <button type="submit" class="principal">Salvar em PDF ou imprimir</button>
-        <label class="guardar"><input type="checkbox" id="guardar"> Guardar neste aparelho</label>
-        <p class="ajuda">Deixe desmarcado em computador compartilhado. Seus dados não são enviados a nenhum servidor.</p>
-        <p class="erro" id="aviso-guardar" role="status"></p>
-        <div class="arquivos">
-          <button type="button" class="secundario" id="baixar">Guardar em arquivo</button>
-          <label class="secundario rotulo-arquivo">Abrir arquivo<input type="file" id="arquivo" accept="application/json,.json" class="so-leitor"></label>
+        <fieldset>
+          <legend>Estudos e cursos</legend>
+          <div id="formacoes"></div>
+          <button type="button" class="secundario" data-adicionar="formacoes">Adicionar estudo ou curso</button>
+        </fieldset>
+
+        <fieldset>
+          <legend>O que você sabe fazer</legend>
+          <label>Habilidades
+            <span class="ajuda">Separe com vírgulas. Exemplo: atendimento, organização, Excel.</span>
+            <textarea name="habilidades" rows="2"></textarea>
+          </label>
+        </fieldset>
+
+        <div class="acoes">
+          <button type="submit" class="principal">Salvar em PDF ou imprimir</button>
+          <label class="guardar"><input type="checkbox" id="guardar"> Guardar neste aparelho</label>
+          <p class="ajuda">Deixe desmarcado em computador compartilhado. Seus dados não são enviados a nenhum servidor.</p>
+          <p class="erro" id="aviso-guardar" role="status"></p>
+          <div class="arquivos">
+            <button type="button" class="texto" id="baixar">Guardar em arquivo</button>
+            <label class="texto rotulo-arquivo">Abrir arquivo<input type="file" id="arquivo" accept="application/json,.json" class="so-leitor"></label>
+            <button type="button" class="texto perigo" id="apagar">Apagar tudo</button>
+          </div>
+          <p class="ajuda">O arquivo guarda os dados do currículo para abrir em outro aparelho.</p>
         </div>
-        <p class="ajuda">O arquivo guarda os dados do currículo para abrir em outro aparelho.</p>
-        <button type="button" class="secundario" id="apagar">Apagar tudo</button>
-      </div>
-    </form>
+      </form>
+    </div>
 
     <section class="previa" aria-label="Prévia do currículo">
       <article id="folha" class="folha"></article>
