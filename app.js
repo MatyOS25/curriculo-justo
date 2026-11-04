@@ -48,7 +48,10 @@ const secao = (titulo, ...conteudo) => {
   return bloco
 }
 
-const titulo = (...partes) => (juntar(...partes) ? [elemento('h4', juntar(...partes))] : [])
+const titulo = (...partes) => {
+  const texto = juntar(...partes)
+  return texto ? [elemento('h4', texto)] : []
+}
 
 const blocoExperiencia = ({ funcao, local, periodo, descricao }) => [
   ...titulo(funcao, local),
